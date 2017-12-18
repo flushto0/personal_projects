@@ -1,0 +1,8 @@
+This is a slight modification of the implementation John Purcell did. You run the exe, and you should get a neat animation
+of several particles moving in a wavy-circle movement.
+
+This project has easily modifiable values for color, speed, and particle movement in the project.
+
+Possible Dependencies:
+(vcredist2015) https://www.microsoft.com/en-us/download/details.aspx?id=48145
+This project uses SDL2 for graphics drawing. The dependencies for it are in the build folder.
