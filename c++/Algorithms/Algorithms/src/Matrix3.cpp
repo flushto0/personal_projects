@@ -8,6 +8,28 @@ Matrix3::~Matrix3()
 {
 }
 
+Matrix3& Matrix3::MatrixRotation(const Quaternion & quaternion)
+{
+	//alternative: if processor supports parallel vector operations, we can just multiply 2 4x4 matrices
+	float s, sx, sy, sz, wx, wy, wz, xx, xy, xz, yy, yz, zz;
+
+	// if q is normalized, s=2.0f (basis)
+	s = 2.0f / (quaternion.w * quaternion.w + quaternion.x * quaternion.x + quaternion.y * quaternion.y + quaternion.z * quaternion.z);
+
+	sx = s * quaternion.x; sy = s * quaternion.y; sz = s * quaternion.z;
+	wx = quaternion.w *	quaternion.x; wy = quaternion.w * quaternion.y; wz = quaternion.w * quaternion.z;
+	xx = quaternion.x * quaternion.x; xy = quaternion.x * quaternion.y; xz = quaternion.x * quaternion.z;
+	yy = quaternion.y * quaternion.y; yz = quaternion.y * quaternion.z; zz = quaternion.z * quaternion.z;
+
+	matrix[0][0] = 1.0f - (yy + zz); matrix[0][1] = xy + wz;		 matrix[0][2] = xz - wy;
+
+	matrix[1][0] = xy - wz;			 matrix[1][1] = 1.0 - (xx + zz); matrix[1][2] = yz + wx;
+
+	matrix[2][0] = xz + wy;			 matrix[2][1] = yz - wx;		 matrix[2][2] = 1.0f - (xx + yy);
+
+	return *this; //returns the same matrix that we are operating on
+}
+
 float& Matrix3::operator()(unsigned int row, unsigned int column)
 {
 	return matrix[column][row]; //column major

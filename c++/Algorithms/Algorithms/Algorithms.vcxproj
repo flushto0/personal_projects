@@ -139,11 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Quaternion.cpp" />
     <ClCompile Include="src\Matrix3.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Quaternion.h" />
     <ClInclude Include="src\Matrix3.h" />
     <ClInclude Include="src\Numbers.h" />
     <ClInclude Include="src\Vector3.h" />

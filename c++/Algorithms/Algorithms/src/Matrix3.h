@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector3.h"
+#include "Quaternion.h"
 
 class Matrix3
 {
@@ -13,7 +14,9 @@ public:
 
 	Matrix3();
 	~Matrix3();
-
+	
+	Matrix3& MatrixRotation(const Quaternion& quaternion);
+	
 	float& operator()(unsigned int row, unsigned int column);
 	Vector3 operator*(const Vector3& vector) const;
 	Matrix3 operator*(const Matrix3& other) const;
