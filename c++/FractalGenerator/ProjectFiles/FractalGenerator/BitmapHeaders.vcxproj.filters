@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="headers">
+      <UniqueIdentifier>{e60262e5-d438-404f-b211-95e59b1bb427}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{c31df0b0-0239-4aef-9731-a54a7d79aebd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bitmap.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mandelbrot.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ZoomList.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FractalCreator.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RGB.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="headers\BitmapFileHeader.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\BitmapInfoHeader.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Bitmap.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Mandelbrot.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Zoom.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\FractalCreator.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\ZoomList.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\RGB.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="fractal.bmp" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,8 @@
+This project was a tutorial from John Purcell. You run the file, and it will generate a bitmap
+that (kind of) resembles the Mandelbrot set/fractal.
+
+The project files have some easily noticeable modify values that can customize color, as well as
+"zoom in", which will take a closer snapshot of the set at the point & zoom level.
+
+Possible dependencies:
+(vcredist 2015) https://www.microsoft.com/en-us/download/details.aspx?id=48145
