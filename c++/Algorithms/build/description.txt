@@ -1,0 +1,5 @@
+This project is an ever-living project where I write math implementations and 
+various algorithms. You can view the source code if you would like to test it out.
+
+Eventually, I will put some executables in here; but I want to create a GUI for
+the project first (in the form of a calculator).
