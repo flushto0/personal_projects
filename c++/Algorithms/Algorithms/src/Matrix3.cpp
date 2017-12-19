@@ -11,6 +11,11 @@ Matrix3::~Matrix3()
 Matrix3& Matrix3::MatrixRotation(const Quaternion & quaternion)
 {
 	//alternative: if processor supports parallel vector operations, we can just multiply 2 4x4 matrices
+	// | w -z  y  x |   |  w -z  y -x |
+	// | z	w -x  y | X |  z  w -x -y |
+	// |-y  x  w  z |   | -y  x  w -z |
+	// |-x -y -z  w |   |  x  y  z  w |
+
 	float s, sx, sy, sz, wx, wy, wz, xx, xy, xz, yy, yz, zz;
 
 	// if q is normalized, s=2.0f (basis)
