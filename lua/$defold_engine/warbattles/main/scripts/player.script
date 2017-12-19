@@ -1,0 +1,83 @@
+local function change_animation(self)
+	if self.dir == vmath.vector3(0, 1, 0) then
+		msg.post("#sprite", "play_animation", {id = hash("move-up")})
+	elseif self.dir == vmath.vector3(0, -1, 0) then
+		msg.post("#sprite", "play_animation", {id = hash("move-down")})			
+	elseif self.dir == vmath.vector3(1, 0 , 0) then
+		msg.post("#sprite", "play_animation", {id = hash("move-right")})
+	elseif self.dir == vmath.vector3(-1, 0, 0) then
+		msg.post("#sprite", "play_animation", {id = hash("move-left")})	
+	elseif self.dir.x >= 0.5 and self.dir.y >= 0.5 then
+		msg.post("#sprite", "play_animation", {id = hash("move-upright")})
+	elseif self.dir.x <= -0.5 and self.dir.y >= 0.5 then
+		msg.post("#sprite", "play_animation", {id = hash("move-upleft")})
+	elseif self.dir.x >= 0.5 and self.dir.y <= -0.5 then
+		msg.post("#sprite", "play_animation", {id = hash("move-downright")})
+	elseif self.dir.x <= -0.5 and self.dir.y <= -0.5 then 
+		msg.post("#sprite", "play_animation", {id = hash("move-downleft")})	
+	end
+end
+
+
+function init(self) 
+    msg.post(".", "acquire_input_focus") 
+
+    self.moving = false     
+    self.input = vmath.vector3() 
+	self.dir = vmath.vector3(0, 1, 0) 
+	self.lastDir = self.dir
+	self.speed = 50 
+	self.isFiring = false
+end
+
+function final(self) 
+    msg.post(".", "release_input_focus") 
+end
+
+function update(self, dt) 
+    if self.moving then
+        local pos = go.get_position() 
+		pos = pos + self.dir * self.speed * dt 
+		go.set_position(pos)
+		if self.dir ~= self.lastDir then change_animation(self) end
+		self.lastDir = self.dir
+	else
+		self.lastDir = vmath.vector3(0, 0, 0)
+		msg.post("#sprite", "play_animation", {id = hash("idle")})	
+	end
+
+	
+	
+
+	if self.isFiring then
+		local angle = math.atan2(self.dir.y, self.dir.x)
+		local rot = vmath.quat_rotation_z(angle)
+		local props = { dir = self.dir }
+		factory.create("#rocketfactory", nil, rot, props)
+	end
+
+	self.input.x = 0 
+    self.input.y = 0
+	self.moving = false
+	self.isFiring = false
+end
+
+function on_input(self, action_id, action) 
+    if action_id == hash("move-up") then
+        self.input.y = 1  
+    elseif action_id == hash("move-down") then
+        self.input.y = -1
+    elseif action_id == hash("move-left") then
+        self.input.x = -1
+    elseif action_id == hash("move-right") then
+		self.input.x = 1
+	elseif action_id == hash("fire") and action.pressed then
+		self.isFiring = true
+    end
+        
+    if vmath.length(self.input) > 0 then
+        self.moving = true 
+		self.dir = vmath.normalize(self.input) 
+    end
+end
+

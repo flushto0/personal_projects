@@ -1,0 +1,4 @@
+This project was a tutorial project found on the Defold engine site. 
+It teaches a lot of basics for the engine, such as events, collision, sprite manipulation, and gameplay programming within the tool.
+
+I added a bit to it, such as balanced random spawning of tanks and some optimizations to the code.

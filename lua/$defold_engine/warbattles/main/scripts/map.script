@@ -1,0 +1,22 @@
+function init(self)
+	local x, y, w, h = tilemap.get_bounds("#map")
+
+	self.tile_pixel_dimensions = 16 --tile pixel width/height is set in the tilesource data
+	self.world_x = go.get_position().x --already in world space; no need to multiply by pixeld
+	self.world_y = go.get_position().y --already in world space; no need to multiply by pixeld
+	self.world_width = (w-20) * self.tile_pixel_dimensions
+	self.world_height = (h-10) * self.tile_pixel_dimensions
+
+	msg.post("tanks", "spawn_limits", 
+	{min_x = self.world_x, min_y = self.world_y, max_x = self.world_width, max_y = self.world_height})
+	
+	
+end
+
+function update(self, dt)
+	
+end
+
+function on_message(self, message_id, message, sender)
+	
+end

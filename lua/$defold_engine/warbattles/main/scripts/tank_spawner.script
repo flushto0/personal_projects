@@ -1,0 +1,23 @@
+local function spawn_tank(vec3_location)
+    factory.create("#tankfactory", vec3_location, vmath.quat())
+end
+
+function init(self)
+    self.tanks_spawned = 0
+	self.total_tanks = 8
+	msg.post("/gui#ui", "gui_inform", {max_score = self.total_tanks * 100})
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("spawn_limits") then
+		print("posting new msg")
+		msg.post("#tank_manager", "request_waypoint", {count = self.total_tanks, other_id = msg.url()})
+		
+	elseif message_id == hash("send_waypoint") then
+		print("waypoints recieved")
+			for i = 1, self.total_tanks do
+                spawn_tank(message.waypoints[i])
+            end
+	end
+	
+end

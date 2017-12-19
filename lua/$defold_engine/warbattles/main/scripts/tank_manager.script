@@ -1,0 +1,84 @@
+--makes sure that the generated vector is a certain distance away from all confirmed placements of other tanks.
+--if the vector3 supplied is a spawnable location, then returns true. otherwise (if the vector3 location is not suitable) returns false
+local function is_waypoint_occupied(self, v)
+	local player_position = vmath.vector3(644, 373, 1) --todo: get the player position dynamically
+    local is_wp_occ = false
+    for i = 1, #self.occupied do
+        if self.occupied[i] ~= nil and vmath.length(v - self.occupied[i]) <= 50 then
+			is_wp_occ = true
+        end
+	end
+	if vmath.length(v - player_position) <= 150 then
+		is_wp_occ = true
+	end
+    return is_wp_occ
+end
+
+--gets a completely random waypoint within the level. returns vmath.vector3.
+local function get_waypoint_random(self)
+    return vmath.vector3(math.random(self.min_x, self.max_x), math.random(self.min_y, self.max_y), 1)
+end
+
+-- gets an x,y waypoint for a tank. returns a vmath.vector3, but balanced between the 4 quadrants of the level
+local function get_waypoint_balanced(self)
+	local x
+	local y
+	if self.next_quadrant == 1 then
+        x = math.random(((self.max_x - 5) / 2) + (self.min_x + 5), self.max_x - 5)
+        y = math.random(self.min_y + 5, (self.max_y - 5) / 2)
+	elseif self.next_quadrant == 2 then	
+        x = math.random(self.min_x + 5, (self.max_x - 5) / 2)
+        y = math.random(self.min_y + 5, (self.max_y - 5) / 2)
+    elseif self.next_quadrant == 3 then
+        x = math.random(self.min_x + 5, (self.max_x - 5) / 2)
+        y = math.random(((self.max_y - 5) / 2) + (self.min_y + 5), self.max_y - 5)
+    elseif self.next_quadrant == 4 then
+        x = math.random(((self.max_x - 5) / 2) + (self.min_x + 5), self.max_x - 5)
+        y = math.random(((self.max_y - 5) / 2) + (self.min_y + 5), self.max_y - 5)
+	end
+	local v = vmath.vector3(x, y, 1)
+	if is_waypoint_occupied(self, v) then
+		return get_waypoint_balanced(self)
+	else
+		print("quad" .. self.next_quadrant)
+		if self.next_quadrant == 4 then self.next_quadrant = 1
+		else self.next_quadrant = self.next_quadrant + 1
+		end 
+		print(v)
+        table.insert(self.occupied, v)
+        return v
+    end
+end
+
+function init(self)
+    math.randomseed(os.time())
+	self.occupied = {}
+	self.next_quadrant = 1
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("spawn_limits") then
+        self.spawn_enabled = true
+        self.min_x = message.min_x
+        self.max_x = message.max_x
+        self.min_y = message.min_y
+        self.max_y = message.max_y
+	elseif message_id == hash("request_waypoint") then
+		local vectors = {}
+		for i = 0, message.count do
+			local v = get_waypoint_balanced(self)
+			table.insert(vectors, v)
+		end
+
+		msg.post(message.other_id, "send_waypoint", {waypoints = vectors})
+
+	elseif message_id == hash("request_randompoint") then
+		for i = 0, message.count do
+            local vectors = {}
+            table.insert(vector, get_waypoint_random(self))
+		end
+
+		msg.post(message.other_id, "send_waypoint", {waypoints = vectors})
+		
+    end
+end

@@ -1,0 +1,21 @@
+function init(self)
+    self.score = 0
+    self.max_score = 1
+end
+
+function update(self, dt)
+    if self.score == self.max_score then
+        local game_over_text = gui.get_node("game_over")
+        gui.set_text(game_over_text, "YOU WIN")
+    end
+end
+
+function on_message(self, message_id, message, sender)
+    if message_id == hash("add_score") then
+        self.score = self.score + message.score
+        local scorenode = gui.get_node("score")
+        gui.set_text(scorenode, "SCORE: " .. self.score)
+    elseif message_id == hash("gui_inform") then
+        self.max_score = message.max_score
+    end
+end
