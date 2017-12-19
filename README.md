@@ -1,7 +1,7 @@
-# personal_projects
+# mini-project collection
 A collage of personal projects in various languages.
 
-This is a hodge-podge of things I do in my free time. The general file structure is:  
+This is a hodge-podge of the smaller things I do in my free time. The general file structure is:  
 (language)/(project_name) or  
 (language)/$(engine_name)/(project_name)
 
